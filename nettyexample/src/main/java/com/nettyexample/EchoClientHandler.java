@@ -5,8 +5,13 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
+
+    private Logger logger = LoggerFactory.getLogger(EchoClientHandler.class);
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
         System.out.println("Client received: " + msg.toString(CharsetUtil.UTF_8));
@@ -19,6 +24,8 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
         User user = new User();
         user.setUserName("robbie");
         user.setPassword("1234");
+
+        logger.info("send User: " + user.toString());
         ctx.writeAndFlush(user);
     }
 

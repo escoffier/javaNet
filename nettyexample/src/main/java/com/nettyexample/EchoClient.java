@@ -7,6 +7,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.Constant;
 
 import java.net.InetSocketAddress;
 
@@ -35,6 +36,7 @@ public class EchoClient {
                             ch.pipeline().addLast(new UserEncoder());
                             ch.pipeline().addLast(new UserDecoder());
                             ch.pipeline().addLast(new EchoClientHandler());
+                            ch.pipeline().addLast(new EchoClientHandler1());
                         }
                     });
 
@@ -49,9 +51,10 @@ public class EchoClient {
     public static void main(String[] args) throws Exception{
         EchoClient client = new EchoClient("127.0.0.1", 19999);
 
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 1; i++){
             client.start();
         }
+
     }
 
 }

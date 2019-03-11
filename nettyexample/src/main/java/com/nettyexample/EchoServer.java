@@ -1,10 +1,7 @@
 package com.nettyexample;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -39,19 +36,19 @@ public class EchoServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new UserDecoder());
-                            ch.pipeline().addLast(new UserEncoder());
+
                             ch.pipeline().addLast(new EchoServerPreHandler());
                             ch.pipeline().addLast(handler);
 
-                            //ch.pipeline().addLast(new EchoOutHandler());
-
-
-
+                            ch.pipeline().addLast(new EchoOutHandler());
+                            ch.pipeline().addLast(new UserEncoder());
                         }
                     });
 
+            //bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
             System.out.println("Start server at port : " + port);
             ChannelFuture future = bootstrap.bind().sync();
+
             future.addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture future) throws Exception {
