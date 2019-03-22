@@ -64,11 +64,12 @@ public class TransServer {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
-                            ch.pipeline().addLast(new ProtobufEncoder());
-                            ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                            ch.pipeline().addLast(new ProtobufDecoder(HelloReply.getDefaultInstance()));
-                            ch.pipeline().addLast(new TransHandler());
+                            ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
+                            pipeline.addLast(new ProtobufEncoder());
+                            pipeline.addLast(new ProtobufVarint32FrameDecoder());
+                            pipeline.addLast(new ProtobufDecoder(HelloReply.getDefaultInstance()));
+                            pipeline.addLast(new TransHandler());
                         }
                     })
                     .group(ctx.channel().eventLoop());

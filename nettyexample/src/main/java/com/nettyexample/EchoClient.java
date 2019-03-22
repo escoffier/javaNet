@@ -21,6 +21,8 @@ public class EchoClient {
     private final String host;
     private final int port;
 
+    private EchoClientHelloHandler echoClientHelloHandler;
+
     public EchoClient(String host, int port) {
         this.host = host;
         this.port = port;
@@ -56,7 +58,8 @@ public class EchoClient {
 
 //                            ch.pipeline().addLast(new UserEncoder());
 //                            ch.pipeline().addLast(new UserDecoder());
-                            ch.pipeline().addLast(new EchoClientHelloHandler());
+                            echoClientHelloHandler = new EchoClientHelloHandler();
+                            ch.pipeline().addLast(echoClientHelloHandler);
                             ch.pipeline().addLast(new EchoHelloHandler());
 //                            ch.pipeline().addLast(new EchoClientHandler0());
 //                            //ch.pipeline().addLast(new EchoClientHandler1());
@@ -82,6 +85,7 @@ public class EchoClient {
 
 
             ChannelFuture future = bootstrap.connect().sync();
+            echoClientHelloHandler.sayHello("escoffier");
 
             future.channel().closeFuture().sync();
         } finally {
