@@ -1,5 +1,8 @@
 package com;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectableChannel;
@@ -9,6 +12,8 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 public class Dispatcher implements Runnable{
+    Object target;
+    private static final Logger logger = LoggerFactory.getLogger(Dispatcher.class);
     private Selector selector;
 
     public Dispatcher() throws IOException {
@@ -39,7 +44,8 @@ public class Dispatcher implements Runnable{
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = (SelectionKey)iterator.next();
                 iterator.remove();
-                System.out.println("receive data in thread " + Thread.currentThread().getName());
+                logger.debug("receive data in thread {}", Thread.currentThread().getName());
+                //System.out.println("receive data in thread " + Thread.currentThread().getName());
                 //SocketChannel clientChannel = (SocketChannel)selectionKey.channel();
                 //clientChannel.read()
 

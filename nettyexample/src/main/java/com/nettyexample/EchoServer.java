@@ -47,28 +47,30 @@ public class EchoServer {
 
         EventLoopGroup group = null;
 
-        switch (channelType)
-        {
-            case EPOLL:
-                group = new EpollEventLoopGroup();
-                break;
-            case NIO:
-                group = new NioEventLoopGroup();
-                break;
-                default:
-                    group = new NioEventLoopGroup();
-        }
+//        switch (channelType)
+//        {
+//            case EPOLL:
+//                group = new EpollEventLoopGroup();
+//                break;
+//            case NIO:
+//                group = new NioEventLoopGroup();
+//                break;
+//                default:
+//                    group = new NioEventLoopGroup();
+//        }
 
 
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(group);
+            //bootstrap.group(group);
             switch (channelType)
             {
                 case NIO:
+                    bootstrap.group(new NioEventLoopGroup());
                     bootstrap.channel(NioServerSocketChannel.class);
                     break;
                 case EPOLL:
+                    bootstrap.group(new EpollEventLoopGroup());
                     bootstrap.channel(EpollServerSocketChannel.class)
                     .localAddress(new InetSocketAddress("127.0.0.1",port))
                             .handler(new LoggingHandler(LogLevel.INFO))
@@ -82,11 +84,11 @@ public class EchoServer {
                                     ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                                     ch.pipeline().addLast(new ProtobufEncoder());
                                     ch.pipeline().addLast(new EchoServerHelloHandler());
-
                                 }
-                            });;
+                            });
                     break;
                 default:
+                    bootstrap.group(new NioEventLoopGroup());
                     bootstrap.channel(NioServerSocketChannel.class);
             }
 

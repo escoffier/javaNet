@@ -6,9 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="javaNet" />
-        <module name="nettyexample" />
         <module name="nio-example" />
+        <module name="nettyexample" />
+        <module name="javaNet" />
       </profile>
     </annotationProcessing>
   </component>

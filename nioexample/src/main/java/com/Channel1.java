@@ -132,8 +132,8 @@ public class Channel1 {
     {
 
         //ReadFile();
-        writeFile();
-        //ReadMappedFile();
+        //writeFile();
+        ReadMappedFile();
         System.out.println( "end of example!" );
     }
 }

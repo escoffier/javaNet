@@ -47,7 +47,7 @@ public class server {
                         listener.accept(null, this);
                     }
 
-                    ByteBuffer buffer = ByteBuffer.allocate(32);
+                    ByteBuffer buffer = ByteBuffer.allocateDirect(32);
 
                     Future<Integer> len =  ch.read(buffer);
 

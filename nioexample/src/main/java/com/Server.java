@@ -1,5 +1,8 @@
 package com;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -16,6 +19,8 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
+    String name;
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
 //    String host;
 //    int port;
     ByteBuffer byteBuffer;
@@ -112,7 +117,8 @@ public class Server {
 
                         ServerSocketChannel socketChannel = (ServerSocketChannel)selectionKey.channel();
                         Socket newSocket = socketChannel.accept().socket();
-                        System.out.println("Accept connection from: " + newSocket.getRemoteSocketAddress());
+                        logger.debug("Accept connection from: {}", newSocket.getRemoteSocketAddress());
+                        //System.out.println("Accept connection from: " + newSocket.getRemoteSocketAddress());
                         socketChannel.register(readSelector, SelectionKey.OP_READ);
                         socketQueue.add(socketChannel);
 
@@ -121,7 +127,8 @@ public class Server {
                         readChannel.read(byteBuffer);
 
                         //Socket socket = nextReady.socket().;
-                        System.out.println("recv data  from: " + byteBuffer);
+                        logger.debug("recv data  from: {}", byteBuffer );
+                        //System.out.println("recv data  from: " + byteBuffer);
 
                     }
 
@@ -141,8 +148,8 @@ public class Server {
         //ReadFile();
         //writeFile();
         //ReadMappedFile();
-        Server server = new Server("192.168.21.197", 18099);
-        server.start("192.168.21.197", 8090);
+        Server server = new Server("192.168.21.226", 18099);
+        server.start("192.168.21.226", 8090);
         System.out.println( "end of example!" );
     }
 }
